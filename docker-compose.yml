@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  web:
+    # Dockerfileの場所
+    build: .
+    # 常時起動
+    tty: true
+    # コンテナ起動時のコマンド
+    command: >
+      ash -c "cd /usr/src/app/nuxt-front &&
+      npm run dev"
+    ports:
+      - "3010:3000"
+    # ホストOSとコンテナ内でソースコードを共有
+    volumes:
+      - ./nuxt-front:/usr/src/app/nuxt-front
