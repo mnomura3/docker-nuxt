@@ -55,5 +55,9 @@ export default {
     middleware: [
       'auth'
     ]
+  },
+  env: {
+    baseUrl: 'http://laravel7.test',
+    baseAPIUrl: 'http://laravel7.test/api',
   }
 }

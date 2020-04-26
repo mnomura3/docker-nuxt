@@ -59,6 +59,7 @@
 <script>
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+import env from "~/nuxt.config";
 export default {
   beforeCreate () {
     this.form = this.$form.createForm(this, { name: 'normal_login' })
@@ -72,11 +73,12 @@ export default {
           // eslint-disable-next-line no-console
           console.log('Received values of form: ', values)
           // const cookies = new Cookies()
-          axios.get('http://laravel7.test/sanctum/csrf-cookie')
+          // axios.get('http://laravel7.test/sanctum/csrf-cookie')
+          axios.get(env.baseUrl + '/sanctum/csrf-cookie')
           // eslint-disable-next-line no-undef
             .then(response => (
               // console.log(res)
-              axios.post('http://laravel7.test/api/login', values)
+              axios.post(env.baseAPIUrl + '/login', values)
                 .then(res => (
                     // console.log(res)
                     cookies.set('auth', res.data.auth, { maxAge: 3600, sameSite: true }),
