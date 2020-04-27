@@ -7,7 +7,7 @@ export default ({ req, route, redirect }) => {
   //   return
   // }
   const cookies = req ? new Cookies(req.headers.cookie) : new Cookies()
-  const credential = cookies.get('auth')
+  const credential = cookies.get('api_token')
   if (credential && route.path === '/login') {
     return redirect('/')
   }
