@@ -1,94 +1,63 @@
 <template>
-  <div class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        nuxt-front
-      </h1>
-      <h2 class="subtitle">
-        it is test.
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-        <button type="button" @click="getUser">ユーザー情報を取得</button>
-      </div>
-    </div>
-  </div>
+  <a-layout id="components-layout-demo-custom-trigger">
+    <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+      <div class="logo" />
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
+        <a-menu-item key="1">
+          <a-icon type="user" />
+          <span>nav 1</span>
+        </a-menu-item>
+        <a-menu-item key="2">
+          <a-icon type="video-camera" />
+          <span>nav 2</span>
+        </a-menu-item>
+        <a-menu-item key="3">
+          <a-icon type="upload" />
+          <span>nav 3</span>
+        </a-menu-item>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-header style="background: #fff; padding: 0">
+        <a-icon
+          class="trigger"
+          :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+          @click="() => (collapsed = !collapsed)"
+        />
+      </a-layout-header>
+      <a-layout-content
+        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
+      >
+        Content
+      </a-layout-content>
+    </a-layout>
+  </a-layout>
 </template>
-
 <script>
-    import axios from 'axios'
-    import Logo from '~/components/Logo.vue'
-    import Cookies from 'universal-cookie'
-
     export default {
-        components: {
-            Logo
+        data() {
+            return {
+                collapsed: false,
+            };
         },
-        methods: {
-            getUser() {
-                const cookies = new Cookies()
-                let api_token = cookies.get('api_token')
-                axios.get('http://laravel7.test/api/user', {
-                    withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ` + api_token,
-                    }
-                })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(err => {
-                        alert('nothing'),
-                            console.log(err)
-                    })
-            }
-        }
-    }
+    };
 </script>
-
 <style>
-  .container {
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  #components-layout-demo-custom-trigger .trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
   }
 
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
+  #components-layout-demo-custom-trigger .trigger:hover {
+    color: #1890ff;
   }
 
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
+  #components-layout-demo-custom-trigger .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
   }
 </style>
