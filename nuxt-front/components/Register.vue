@@ -1,17 +1,26 @@
 <template>
-  <a-form :form="form" @submit="handleSubmit">
+  <a-form
+    :form="form"
+    @submit="handleSubmit"
+  >
     <a-form-item v-bind="formItemLayout">
       <span slot="label">
-        Nickname&nbsp;
+        Name&nbsp;
         <a-tooltip title="What do you want others to call you?">
-          <a-icon type="question-circle-o" />
+          <a-icon type="question-circle-o"/>
         </a-tooltip>
       </span>
       <a-input
         v-decorator="[
-          'nickname',
+          'name',
           {
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [
+              {
+                required: true,
+                message: 'Please input your name!',
+                whitespace: true
+              }
+            ],
           },
         ]"
       />
@@ -24,11 +33,11 @@
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: 'The input is not valid email!',
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: 'Please input your email!',
               },
             ],
           },
@@ -91,55 +100,22 @@
 </template>
 
 <script>
-    const residences = [
-        {
-            value: 'zhejiang',
-            label: 'Zhejiang',
-            children: [
-                {
-                    value: 'hangzhou',
-                    label: 'Hangzhou',
-                    children: [
-                        {
-                            value: 'xihu',
-                            label: 'West Lake',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            value: 'jiangsu',
-            label: 'Jiangsu',
-            children: [
-                {
-                    value: 'nanjing',
-                    label: 'Nanjing',
-                    children: [
-                        {
-                            value: 'zhonghuamen',
-                            label: 'Zhong Hua Men',
-                        },
-                    ],
-                },
-            ],
-        },
-    ];
+    import axios from 'axios'
+    import Cookies from 'universal-cookie'
 
     export default {
         data() {
             return {
                 confirmDirty: false,
-                residences,
                 autoCompleteResult: [],
                 formItemLayout: {
                     labelCol: {
-                        xs: { span: 24 },
-                        sm: { span: 8 },
+                        xs: {span: 24},
+                        sm: {span: 8},
                     },
                     wrapperCol: {
-                        xs: { span: 24 },
-                        sm: { span: 16 },
+                        xs: {span: 24},
+                        sm: {span: 16},
                     },
                 },
                 tailFormItemLayout: {
@@ -157,14 +133,25 @@
             };
         },
         beforeCreate() {
-            this.form = this.$form.createForm(this, { name: 'register' });
+            this.form = this.$form.createForm(this, {name: 'register'});
         },
         methods: {
             handleSubmit(e) {
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
+                        const cookies = new Cookies()
                         console.log('Received values of form: ', values);
+                        axios.post('http://laravel7.test/api/register', values)
+                            .then(res => (
+                                console.log('Received values of form: ', res),
+                                    alert('登録しました。'),
+                                    cookies.set('api_token', res.data.plainTextToken, {maxAge: 7200}),
+                                    this.$router.push('/')
+                            ))
+                            .catch(err => (
+                                alert('ログインに失敗しました。')
+                            ))
                     }
                 });
             },
@@ -183,18 +170,9 @@
             validateToNextPassword(rule, value, callback) {
                 const form = this.form;
                 if (value && this.confirmDirty) {
-                    form.validateFields(['confirm'], { force: true });
+                    form.validateFields(['confirm'], {force: true});
                 }
                 callback();
-            },
-            handleWebsiteChange(value) {
-                let autoCompleteResult;
-                if (!value) {
-                    autoCompleteResult = [];
-                } else {
-                    autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-                }
-                this.autoCompleteResult = autoCompleteResult;
             },
         },
     };

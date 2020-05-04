@@ -1,8 +1,22 @@
 <template>
   <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
-    <a-form-item label="Note">
+    <a-form-item label="E-mail">
       <a-input
-        v-decorator="['note', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+        v-decorator="[
+          'email',
+          {
+            rules: [
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your email!'
+              }
+            ]
+          }
+        ]"
       />
     </a-form-item>
     <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
@@ -18,7 +32,7 @@
         data() {
             return {
                 formLayout: 'horizontal',
-                form: this.$form.createForm(this, { name: 'coordinated' }),
+                form: this.$form.createForm(this, {name: 'coordinated'}),
             };
         },
         methods: {
