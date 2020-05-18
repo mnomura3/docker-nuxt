@@ -14,7 +14,10 @@
     "ant-design-vue": "^1.1.10",
     "axios": "^0.19.2",
     "nuxt": "^2.0.0",
-    "universal-cookie": "^4.0.3"
+    "universal-cookie": "^4.0.3",
+    "vue2-google-maps": "^0.10.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1"
+  }
 }
