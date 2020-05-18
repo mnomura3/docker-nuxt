@@ -1,3 +1,5 @@
+require('dotenv').config();
+const { googleMapAPIKey } = process.env;
 
 export default {
   mode: 'spa',
@@ -29,7 +31,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/antd-ui'
+    '@/plugins/antd-ui',
+    '@/plugins/google-map',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -57,7 +60,6 @@ export default {
     ]
   },
   env: {
-    baseUrl: 'http://laravel7.test',
-    baseAPIUrl: 'http://laravel7.test/api',
+    googleMapAPIKey,
   }
 }
