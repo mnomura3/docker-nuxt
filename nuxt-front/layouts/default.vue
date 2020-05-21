@@ -17,7 +17,9 @@
         </a-menu-item>
         <a-menu-item key="3">
           <a-icon type="upload" />
-          <span>nav 3</span>
+          <span>test</span>
+          <nuxt-link to="/test">
+          </nuxt-link>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
